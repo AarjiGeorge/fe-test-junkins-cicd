@@ -20,28 +20,26 @@ pipeline {
 
         stage('Lint') {
             steps {
-                sh 'ng lint'
+                sh 'npx ng lint'
             }
         }
 
         stage('Test') {
             steps {
-                sh 'ng test --no-watch --no-progress --browsers=ChromeHeadless'
+                sh 'npx ng test --no-watch --no-progress --browsers=ChromeHeadless'
             }
         }
 
         stage('Build') {
             steps {
-                sh 'ng build --configuration=production --base-href=/'
+                sh 'npx ng build --configuration=production --base-href=/'
             }
         }
 
         stage('Deploy to Nginx') {
             steps {
-                // Clear previous build
                 sh 'rm -rf /app-dist/*'
-                // Copy new build (replace "my-angular-app" with your actual project name)
-                sh 'cp -r dist/my-angular-app/* /app-dist/'
+                sh 'cp -r dist/fe-test-junkins-cicd/* /app-dist/'
             }
         }
     }
