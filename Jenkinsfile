@@ -38,8 +38,13 @@ pipeline {
 
         stage('Deploy to Nginx') {
             steps {
-                sh 'rm -rf /app-dist/*'
-                sh 'cp -r dist/fe-test-junkins-cicd/* /app-dist/'
+                sh '''
+                    # Create temp dir, copy new build, then atomically replace
+                    mkdir -p /app-dist.new
+                    cp -r dist/fe-angular-cicd/* /app-dist.new/
+                    rm -rf /app-dist
+                    mv /app-dist.new /app-dist
+                '''
             }
         }
     }
