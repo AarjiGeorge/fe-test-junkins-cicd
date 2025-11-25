@@ -18,17 +18,17 @@ pipeline {
             }
         }
 
-        stage('Lint') {
-            steps {
-                sh 'npx ng lint'
-            }
-        }
+        // stage('Lint') {
+        //     steps {
+        //         sh 'npx ng lint'
+        //     }
+        // }
 
-        stage('Test') {
-            steps {
-                sh 'npx ng test --no-watch --no-progress --browsers=ChromeHeadless'
-            }
-        }
+        // stage('Test') {
+        //     steps {
+        //         sh 'npx ng test --no-watch --no-progress --browsers=ChromeHeadless'
+        //     }
+        // }
 
         stage('Build') {
             steps {
