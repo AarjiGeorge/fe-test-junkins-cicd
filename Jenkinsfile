@@ -39,11 +39,14 @@ pipeline {
         stage('Deploy to Nginx') {
             steps {
                 sh '''
-                    # Create temp dir, copy new build, then atomically replace
-                    mkdir -p /app-dist.new
-                    cp -r dist/fe-angular-cicd/* /app-dist.new/
-                    rm -rf /app-dist
-                    mv /app-dist.new /app-dist
+                    # Use /tmp (writable by Jenkins)
+                    rm -rf /tmp/app-dist.new
+                    mkdir -p /tmp/app-dist.new
+                    cp -r dist/fe-angular-cicd/* /tmp/app-dist.new/
+
+                    # Replace the shared volume contents
+                    rm -rf /app-dist/*
+                    cp -r /tmp/app-dist.new/* /app-dist/
                 '''
             }
         }
