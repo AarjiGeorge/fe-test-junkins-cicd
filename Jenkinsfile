@@ -39,14 +39,14 @@ pipeline {
         stage('Deploy to Nginx') {
             steps {
                 sh '''
-                    # Use /tmp (writable by Jenkins)
-                    rm -rf /tmp/app-dist.new
-                    mkdir -p /tmp/app-dist.new
-                    cp -r dist/fe-angular-cicd/* /tmp/app-dist.new/
+                    echo "→ Deploying to Nginx..."
 
-                    # Replace the shared volume contents
-                    rm -rf /app-dist/*
-                    cp -r /tmp/app-dist.new/* /app-dist/
+                    # Copy new build directly into /app-dist (overwrite files)
+                    cp -rf dist/fe-angular-cicd/* /app-dist/
+
+                    # Optional: remove any leftover files from previous builds that are NOT in the new build
+                    # (Only if you're concerned about stale files — often not needed for Angular apps)
+                    echo "✅ Deployment completed."
                 '''
             }
         }
